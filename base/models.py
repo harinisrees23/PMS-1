@@ -21,13 +21,7 @@ class Medicine(models.Model):
         return self.name
 
 
-class Customer(models.Model):
-    name=models.CharField(max_length=255)
-    phno=models.CharField(max_length=10)
-    address=models.ForeignKey('Address', on_delete=models.SET_NULL, blank=True, null=True)
-    DOB=models.DateField(auto_now=False, auto_now_add=False)
-    def __str__(self):
-        return self.name
+
 
 class Address(models.Model):
     
@@ -40,9 +34,21 @@ class Address(models.Model):
     def __str__(self):
         return self.costumer.name
 
+
+
+class Customer(models.Model):
+    name=models.CharField(max_length=255)
+    phno=models.CharField(max_length=10)
+    address=models.ForeignKey(Address, on_delete=models.SET_NULL, blank=True, null=True)
+    DOB=models.DateField(auto_now=False, auto_now_add=False)
+    def __str__(self):
+        return self.name
+
+
+        
 class OrderItem(models.Model):
     
-    customer=models.ForeignKey(User,on_delete=models.CASCADE)
+    customer=models.ForeignKey(Customer,on_delete=models.CASCADE)
     ordered = models.BooleanField(default=False)
     item = models.ForeignKey(Medicine, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
@@ -84,10 +90,10 @@ class Order(models.Model):
 
 
 class covid(models.Model):
-    customer=models.ForeignKey(User,on_delete=models.CASCADE)
+    customer=models.OneToOneField(Customer, on_delete=models.CASCADE)
     symptoms=models.CharField(max_length=255)
-    address=models.ForeignKey(Address,on_delete=models.CASCADE)
     
+    no_of_days=models.IntegerField(null=True)
 
 class Prescription(models.Model):
     customer = models.ForeignKey(Customer,default=None,on_delete=models.CASCADE)
