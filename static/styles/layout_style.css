@@ -1,0 +1,25 @@
+body
+{
+    display: flex;
+    flex-direction: column;
+}
+
+.middle
+{
+    display: grid;
+    grid-template-columns: .5fr 3fr;
+
+}
+
+.side-bar
+{
+    background-color: green;
+    height: 100vh;
+}
+
+.top-bar
+{
+    background-color: green;
+    width: 100vw;
+}
+

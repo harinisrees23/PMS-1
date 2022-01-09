@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.deletion import CASCADE
 from django.db.models.fields import CommaSeparatedIntegerField
 from django_countries.fields import CountryField
 # Create your models here.
@@ -23,26 +24,27 @@ class Medicine(models.Model):
 
 
 
-class Address(models.Model):
+
     
+    
+   
+
+    
+
+
+class Customer(models.Model):
+    first_name=models.CharField(max_length=255)
+    middle_name=models.CharField(max_length=255)
+    last_name=models.CharField(max_length=255)
+    phno=models.CharField(max_length=10)
+    
+    DOB=models.DateField(auto_now=False, auto_now_add=False)
     street_address = models.CharField(max_length=100)
     
     country = CountryField(multiple=False)
     zip = models.CharField(max_length=100)
-   
-
     def __str__(self):
-        return self.costumer.name
-
-
-
-class Customer(models.Model):
-    name=models.CharField(max_length=255)
-    phno=models.CharField(max_length=10)
-    address=models.ForeignKey(Address, on_delete=models.SET_NULL, blank=True, null=True)
-    DOB=models.DateField(auto_now=False, auto_now_add=False)
-    def __str__(self):
-        return self.name
+        return self.first_name
 
 
         
@@ -60,6 +62,8 @@ class OrderItem(models.Model):
         return self.quantity * self.item.price
 
 
+    
+    
 
 
 class Order(models.Model):
@@ -71,11 +75,10 @@ class Order(models.Model):
     ordered_date = models.DateTimeField()
     ordered = models.BooleanField(default=False)
     
-    payment = models.BooleanField(default=False)
     
 
     def __str__(self):
-        return self.customer.name
+        return self.customer.first_name
 
     def get_total(self):
         total = 0
@@ -87,19 +90,21 @@ class Order(models.Model):
 
 
 
-
-
-class covid(models.Model):
-    customer=models.OneToOneField(Customer, on_delete=models.CASCADE)
-    symptoms=models.CharField(max_length=255)
-    
-    no_of_days=models.IntegerField(null=True)
-
 class Prescription(models.Model):
-    customer = models.ForeignKey(Customer,default=None,on_delete=models.CASCADE)
-    images = models.FileField(upload_to = 'prescriptions/')
- 
+    image = models.ImageField(null=True)
+    order=models.ForeignKey(Order,on_delete=CASCADE)
     def __str__(self):
-        return self.customer.name
+        return str(self.id)
+
+class Covid(models.Model):
+    customer=models.OneToOneField(Customer, on_delete=models.CASCADE)
+    no_of_days=models.IntegerField(null=True)
+    cold=models.BooleanField(default=False,null=True,blank=True)
+    fever=models.BooleanField(default=False,null=True,blank=True)
+    breathing_difficulty=models.BooleanField(default=False,null=True,blank=True)
+    comorbid=models.BooleanField(default=False,null=True,blank=True)
+
+
+
 
 
