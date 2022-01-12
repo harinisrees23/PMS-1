@@ -15,6 +15,7 @@ class Medicine(models.Model):
     category=models.ForeignKey(Category,on_delete=models.SET_NULL, null=True)
     description = models.TextField(null=True, blank=True)
     image = models.FileField(blank=True)
+    
     quantity=models.IntegerField(default=0)
     ali = models.BooleanField(default=False)
     price = models.FloatField()
@@ -36,7 +37,7 @@ class Customer(models.Model):
     first_name=models.CharField(max_length=255)
     middle_name=models.CharField(max_length=255)
     last_name=models.CharField(max_length=255)
-    phno=models.CharField(max_length=10)
+    phno=models.CharField(max_length=10,unique=True)
     
     DOB=models.DateField(auto_now=False, auto_now_add=False)
     street_address = models.CharField(max_length=100)
@@ -103,6 +104,7 @@ class Covid(models.Model):
     fever=models.BooleanField(default=False,null=True,blank=True)
     breathing_difficulty=models.BooleanField(default=False,null=True,blank=True)
     comorbid=models.BooleanField(default=False,null=True,blank=True)
+    start_date = models.DateField(auto_now_add=True)
 
 
 

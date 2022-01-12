@@ -1,10 +1,13 @@
 from django.contrib import admin
 from django.urls import path
 from . import views
+from django.urls.conf import include
+from django.conf.urls.static import static 
+from django.conf import settings 
 
 
 urlpatterns = [
-    path('login/',views.loginPage,name='login'),
+    path('',views.loginPage,name='login'),
     path('layout/',views.layout,name='layout'),
     path('home/',views.home,name='home'),
     path("billing/<str:ck>",views.billing,name='billing'),
@@ -16,6 +19,12 @@ urlpatterns = [
     path('checkout2/<str:ck>',views.c_form,name='checkout2'),
     path('bill/<str:ck>',views.bill,name='bill'),
     path('register/',views.register,name='register'),
-    path("billing/",views.billing1,name='billing1')
+    path("billing/",views.billing1,name='billing1'),
+    path("myorders/",views.myorders,name='myorders'),
+    path("display_bill/<int:id>",views.display_bill,name='display_bill'),
+    path('customer_orders/',views.customer_order,name='customer_orders'),
+    path('orderdetail/<int:id>',views.orderdetails,name='orderdetail'),
+    path('covid_data/',views.covid_data,name='covid_data'),
+    path('logout/',views.logoutUser,name='logout')
 
-]
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

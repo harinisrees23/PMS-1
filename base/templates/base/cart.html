@@ -1,11 +1,26 @@
-{% extends "base/layout.html" %}
-
-{% block center %}
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+	<title>CART</title>
+	<link rel="stylesheet" type="text/css" href="{% static 'styles/cart.css' %}">
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,900" rel="stylesheet">
+   
+</head>
+<body>
+    <div class="top-bar">
+        <img id="logo-home" src="{% static 'images/drugstore.png' %}">
+        <div id="nav-links">
+            <a href="{% url 'home' %}">HOME</a>
+          <a href="{% url 'billing' ck %}">SHOP</a>
+          </div>
+        
+    </div>
 <div class="CartContainer">
     <div style="justify-content: center" class="Header">
         <h3 class="Heading">CART</h3>
-    
     </div>
+    
     {% for order_item in object.items.all %}
     <div class="Cart-Items">
           <div class="image-box">
@@ -26,10 +41,11 @@
               
               <a href="{% url 'remove-from-cart' order_item.item.id ck %}"><div class="remove"><u>Remove</u></div></a>
           </div>
-    </div>
+    
   {%endfor %}
+</div>
   <hr> 
-  <div class="checkout">
+  <di class="checkout">
   <div class="total">
       <div>
           <div class="Subtotal">Sub-Total</div>
@@ -37,6 +53,8 @@
       </div>
       <div class="total-amount">${{ object.get_total }}</div>
   </div>
-  <a href="{% url 'checkout' ck ali %}"> Checkout</a></div>
+  
+  <a href="{% url 'checkout' ck ali %}"><button class="button">Checkout</button></div></a>
 </div>
-{% endblock center %}
+</body>
+</html>

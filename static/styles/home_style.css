@@ -1,0 +1,23 @@
+.box
+{
+    height: 20vh;
+    width: 20vw;
+    background-color: #1C6DD0;
+    margin:5%;
+    text-align: center;
+    padding-top: 10vh;
+    border-radius: 30px;
+    
+}
+.box a{
+    font-size: xx-large;
+    text-decoration: solid;
+    color: aliceblue;
+}
+
+body
+{
+    display: flex;
+    flex-wrap: wrap;
+    background-color:#A3E4DB;
+}
