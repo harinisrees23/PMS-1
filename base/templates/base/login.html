@@ -4,6 +4,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
         <title>Login</title>
         <!-- CUSTOM CSS -->
         <link rel="stylesheet" href="{% static 'styles/login_style.css' %}">
@@ -19,15 +20,19 @@
         {% if messages %}
         <ul class="messages">
             {% for message in messages %}
+            
             <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
             {% endfor %}
         </ul>
         {% endif %}
+        <!--<img class="title" src="/static/images/drugstore.png" alt="Pharmacy logo">-->
         <div class="container">
           <div class="forms-container">
             <div class="signin-signup">
               <form action="" class="sign-in-form" method="POST">
                 {% csrf_token %}
+                
+                <h1 class="title">Pharmacy Management System </h1>
                 <h2 class="title">Login</h2>
                 <div class="input-field">
                   <i class="fas fa-user"></i>
@@ -50,8 +55,7 @@
               <form action="" class="sign-up-form">
                 <h2 class="title">Contact info</h2>
                 <ul>
-                    <li>808884742</li>
-                    <li>mohammeddanishrabbani@gmail.com</li>
+                    
                 </ul>
       
                 

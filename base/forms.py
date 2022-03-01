@@ -1,7 +1,7 @@
 from django.db.models import fields
 from django.forms import ModelForm
 from django.contrib.auth.forms import UserCreationForm
-from .models import Customer, Covid,Prescription
+from .models import Address, Customer, Covid,Prescription
 
 class CustomerForm(ModelForm):
     class Meta:
@@ -15,6 +15,12 @@ class CovidForm(ModelForm):
         fields='__all__'
         exclude=['customer']
 
+class AddressForm(ModelForm):
+    class Meta:
+        model=Address
+        fields='__all__'
+        
+
 class PForm(ModelForm):
     class Meta:
         model=Prescription
@@ -27,3 +33,8 @@ class CForm(ModelForm):
         model = Customer
         fields = '__all__'
         exclude=['street_address','country','zip']
+
+    def __init__(self, *args, **kwargs):
+        super(CForm, self).__init__(*args, **kwargs)
+        
+        self.fields['DOB'].widget.attrs['placeholder'] = 'YYYY-MM-DD'

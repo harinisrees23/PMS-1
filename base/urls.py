@@ -7,7 +7,8 @@ from django.conf import settings
 
 
 urlpatterns = [
-    path('',views.loginPage,name='login'),
+    path('',views.projectname,name='projectname'),
+    path('login/',views.loginPage,name='login'),
     path('layout/',views.layout,name='layout'),
     path('home/',views.home,name='home'),
     path("billing/<str:ck>",views.billing,name='billing'),

@@ -1,18 +1,18 @@
 :root {
   --bg-color: #f5f5f5;
-  --bg-round-a:#050;
-  --bg-round-b: #050;;
+  --bg-round-a:#412732;
+  --bg-round-b: #412732;
   --panel-color: #fff;
   --title: #444;
   --bg-input: #e0e0e0;
   --input-icon: #8a8a8a;
   --input: #333;
   --input-hover: #222;
-  --btn-color: #050;
+  --btn-color: #412732;
   --btn-text: #fff;
-  --btn-hover: #008a00;
+  --btn-hover: #a48296;
   --social-text: #444;
-  --social-icon: #008a00;
+  --social-icon: #0c0205;
   --icon-color: #333;
   --check-text: #333;
   --check-hover: #333;
@@ -155,7 +155,12 @@ form.sign-up-form {
   color: var(--title);
   margin-bottom: 10px;
 }
-
+img {
+  max-width: 50%;
+  max-height: 10%;
+  margin-top: 0%;
+  margin-left: 0%;
+ }
 .input-field {
   width: 85%;
   height: 55px;

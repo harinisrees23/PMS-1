@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render, redirect,get_object_or_404
 from django.http import HttpResponse
 from django.contrib import messages
@@ -5,10 +6,10 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.utils import timezone
-from .forms import CForm, CustomerForm,PForm,CovidForm
+from .forms import AddressForm, CForm, CustomerForm,PForm,CovidForm
 from datetime import date,timedelta
 
-from .models import Customer, Medicine,Category,Order,OrderItem,Covid, Prescription
+from .models import Address, Customer, Medicine,Category,Order,OrderItem,Covid, Prescription
 # Create your views here.
 def loginPage(request):
     page='login'
@@ -72,12 +73,18 @@ def add_to_cart(request,pk,ck):
         order = order_qs[0]
         # check if the order item is in the order
         if order.items.filter(item__id=item.id,customer=Customer.objects.get(phno=ck)).exists():
-            order_item.quantity += 1
+            if(order_item.item.quantity>order_item.quantity):
+                order_item.quantity += 1
+                order_item.item.quantity-=1
+                order_item.item.save()
+
             order_item.save()
             messages.info(request, "This item quantity was updated.")
             return redirect('cart',ck=ck)
         else:
             order.items.add(order_item)
+            order_item.item.quantity-=1
+            order_item.item.save()
             messages.info(request, "This item was added to your cart.")
             return redirect('billing',ck=ck)
     else:
@@ -85,6 +92,8 @@ def add_to_cart(request,pk,ck):
         order = Order.objects.create(
             user=request.user, ordered_date=ordered_date,customer=Customer.objects.get(phno=ck))
         order.items.add(order_item)
+        order_item.item.quantity-=1
+        order_item.item.save()
         messages.info(request, "This item was added to your cart.")
         return redirect('billing',ck=ck)
 
@@ -107,11 +116,15 @@ def order_summary(request,ck):
 def checkout(request,ck,ali):
     if ali==1:
         customer=Customer.objects.get(phno=ck)
-        form=CustomerForm(instance=customer)
+        form=AddressForm()
         if request.method == 'POST':
-            form = CustomerForm(request.POST,instance=customer)
+            form = AddressForm(request.POST)
             if form.is_valid():
-                form.save()
+                a=form.save(commit=False)
+                
+                a.save()
+                customer.address=a
+                customer.save()
                 return redirect('checkout2',ck=ck)
 
         return render(request,"base/covid_form.html",{'form': form,'ck':ck})
@@ -183,6 +196,9 @@ def remove_from_cart(request, pk,ck):
                 ordered=False,
                 customer=Customer.objects.get(phno=ck)
             )[0]
+            order_item.item.quantity+=order_item.quantity
+            order_item.item.save()
+
             order.items.remove(order_item)
             order_item.delete()
             messages.info(request, "This item was removed from your cart.")
@@ -217,8 +233,13 @@ def remove_single_item_from_cart(request, pk,ck):
             )[0]
             if order_item.quantity > 1:
                 order_item.quantity -= 1
+                order_item.item.quantity+=1
+                order_item.item.save()
+
                 order_item.save()
             else:
+                order_item.item.quantity+=1
+                order_item.item.save()
                 order.items.remove(order_item)
             messages.info(request, "This item quantity was updated.")
             return redirect("cart",ck=ck)
@@ -239,6 +260,7 @@ def bill(request,ck):
     items=OrderItem.objects.filter(order=order)
     for each_item in items:
         each_item.ordered=True
+        ###med.save()
         each_item.save()
     order.ordered=True
     order.save()
@@ -256,7 +278,7 @@ def register(request):
             if form.is_valid():
                 form.save()
 
-            return redirect('home')
+                return redirect('home')
 
     return render(request,'base/register.html',{'form':form})
 
@@ -325,8 +347,10 @@ def covid_data(request):
     from_date= date.today()
     t=timedelta(days=15)
     to_date=from_date-t
-    cs=Covid.objects.filter(((Q(start_date__gte=to_date)&Q(start_date__lte=from_date))&Q(cold=c)&Q(customer__zip__icontains=z))|((Q(start_date__gte=to_date)&Q(start_date__lte=from_date))&Q(fever=f)&Q(customer__zip__icontains=z))|((Q(start_date__gte=to_date)&Q(start_date__lte=from_date))&Q(breathing_difficulty=b)&Q(customer__zip__icontains=z))|((Q(start_date__gte=to_date)&Q(start_date__lte=from_date))&Q(comorbid=co)&Q(customer__zip__icontains=z)))
+    cs=Covid.objects.filter(((Q(start_date__gte=to_date)&Q(start_date__lte=from_date))&Q(cold=c)&Q(customer__address__zip__icontains=z))|((Q(start_date__gte=to_date)&Q(start_date__lte=from_date))&Q(fever=f)&Q(customer__address__zip__icontains=z))|((Q(start_date__gte=to_date)&Q(start_date__lte=from_date))&Q(breathing_difficulty=b)&Q(customer__address__zip__icontains=z))|((Q(start_date__gte=to_date)&Q(start_date__lte=from_date))&Q(comorbid=co)&Q(customer__address__zip__icontains=z)))
     #cs=Covid.objects.all()
     context={'cs':cs}
     return render(request,'base/covid_data.html',context)
 
+def projectname(request):
+    return render(request,'base/projectname.html')

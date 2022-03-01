@@ -29,8 +29,11 @@ class Medicine(models.Model):
     
     
    
-
-    
+class Address(models.Model):
+    street_address = models.CharField(max_length=100)
+    city=models.CharField(max_length=100)
+    country = CountryField(multiple=False)
+    zip = models.CharField(max_length=100) 
 
 
 class Customer(models.Model):
@@ -40,10 +43,7 @@ class Customer(models.Model):
     phno=models.CharField(max_length=10,unique=True)
     
     DOB=models.DateField(auto_now=False, auto_now_add=False)
-    street_address = models.CharField(max_length=100)
-    
-    country = CountryField(multiple=False)
-    zip = models.CharField(max_length=100)
+    address=models.ForeignKey(Address,on_delete=models.SET_NULL,null=True)
     def __str__(self):
         return self.first_name
 
@@ -70,10 +70,10 @@ class OrderItem(models.Model):
 class Order(models.Model):
     user = models.ForeignKey(User,on_delete=models.SET_NULL,null=True)
     customer = models.ForeignKey(Customer,on_delete=models.CASCADE)                         
-    orderid = models.CharField(max_length=20, blank=True, null=True)
+    
     items = models.ManyToManyField(OrderItem)
     start_date = models.DateTimeField(auto_now_add=True)
-    ordered_date = models.DateTimeField()
+    ordered_date=models.DateTimeField()
     ordered = models.BooleanField(default=False)
     
     

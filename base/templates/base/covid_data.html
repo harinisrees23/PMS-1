@@ -8,7 +8,8 @@
 		<script src="{% static 'js/script.js' %}"></script>
 	</head>
 	<body>
-	
+		<a href="{% url 'home' %}">GO TO HOME</a>
+		<h1>List of Potential covid cases</h1>
             
 		<article>
 			
@@ -18,6 +19,7 @@
 						<th><span contenteditable>Name</span></th>
 						
 						<th><span contenteditable>Address</span></th>
+						<th><span contenteditable>City</span></th>
 						<th><span contenteditable>country</span></th>
 						<th><span contenteditable>cold</span></th>
 						<th><span contenteditable>fever</span></th>
@@ -29,6 +31,7 @@
 				<tbody>
 					<tr>
 						<form  method="GET" action="{% url 'covid_data' %}">
+						<td></td>
 						<td></td>
 						<td></td>
 						<td></td>
@@ -63,13 +66,14 @@
 					
 					<tr>
 						<td>{{c.customer.first_name}}</td>
-						<td>{{c.customer.street_address}}</td>
-						<td>{{c.customer.country}}</td>
+						<td>{{c.customer.address.street_address}}</td>
+						<td>{{c.customer.address.city}}</td>
+						<td>{{c.customer.address.country}}</td>
 						<td>{{c.cold}}</td>
 						<td>{{c.fever}}</td>
 						<td>{{c.breathing_difficulty}}</td>
 						<td>{{c.comorbid}}</td>
-						<td>{{c.customer.zip}}</td>
+						<td>{{c.customer.address.zip}}</td>
 					</tr>
                     {%endfor %}
 				</tbody>

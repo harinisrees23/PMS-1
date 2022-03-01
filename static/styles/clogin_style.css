@@ -1,5 +1,5 @@
 body {
-    background-color: rgb(50, 75, 99);
+    background-color:bisque;
     justify-content: center;
     text-align: center;
     font-family: 'Poppins', sans-serif;
@@ -7,7 +7,7 @@ body {
 }
 
 h1 {
-    color: rgb(184, 184, 181);
+    color: #412732;
     padding-top: 90px;
     text-transform: uppercase;
     font-size: 30px;
@@ -20,7 +20,7 @@ input {
     box-shadow: 1px 1px 1px 1px rgb(0, 0, 0);
     width: 300px;
     height: 25px;
-    background-color: rgb(86, 101, 129);
+    background-color: bisque;
 }
 
 input::placeholder {
@@ -33,7 +33,7 @@ input:focus {
     color: white;
 
 }
-}
+
 
 .inputs {
     padding: 20px;
@@ -43,7 +43,7 @@ input:focus {
 button {
     border-style: none;
     color: white;
-    background-color: rgb(15, 55, 71);
+    background-color: #412732;
     border: 2px solid white;
     box-shadow: 1px 1px 1px 1px rgb(0, 0, 0);
     padding: 12px 160px;

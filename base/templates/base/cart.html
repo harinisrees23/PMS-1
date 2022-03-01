@@ -11,12 +11,12 @@
     <div class="top-bar">
         <img id="logo-home" src="{% static 'images/drugstore.png' %}">
         <div id="nav-links">
-            <a href="{% url 'home' %}">HOME</a>
-          <a href="{% url 'billing' ck %}">SHOP</a>
+            <a href="{% url 'home' %}"style="color: white;">HOME</a>
+          <a href="{% url 'billing' ck %}"style="color: white;">SHOP</a>
           </div>
         
     </div>
-<div class="CartContainer">
+
     <div style="justify-content: center" class="Header">
         <h3 class="Heading">CART</h3>
     </div>
@@ -27,7 +27,7 @@
               <img style="border-radius: 10%;"  src="{{order_item.item.image.url}}" height="50vh" />
           </div>
           <div class="about">
-              <h1 class="title">{{ order_item.item.name}}</h1>
+              <h1 class="title" style="line-height: 23px;">{{ order_item.item.name}}</h1>
  
     
           </div>
@@ -37,13 +37,13 @@
               <a style="text-decoration: none" href="{% url 'remove_single_item_from_cart' order_item.item.id ck %}"><div class="btn">-</div></a>
           </div>
           <div class="prices">
-              <div class="amount"></div>${{order_item.get_final_price}}</div>
+              <div class="amount"></div>&#8377;{{order_item.get_final_price}}</div>
               
               <a href="{% url 'remove-from-cart' order_item.item.id ck %}"><div class="remove"><u>Remove</u></div></a>
           </div>
     
   {%endfor %}
-</div>
+
   <hr> 
   <di class="checkout">
   <div class="total">
@@ -51,7 +51,7 @@
           <div class="Subtotal">Sub-Total</div>
           
       </div>
-      <div class="total-amount">${{ object.get_total }}</div>
+      <div class="total-amount">&#8377;{{ object.get_total }}</div>
   </div>
   
   <a href="{% url 'checkout' ck ali %}"><button class="button">Checkout</button></div></a>
